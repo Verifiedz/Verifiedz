@@ -8,8 +8,8 @@
 <br><br>
 <ul>
   <li>🎓 <strong>B.Eng Software Engineering Student</strong> at Toronto Metropolitan University.</li>
-  <li>💼 <strong>Software Developer Intern</strong> at SOTI, Contributed to the development of their flagship product as a Full Stack Developer using .NET and Angular.</li>
-  <li>💼 <strong>Software Developer Intern</strong> at Telhab, enhancing web functionality and user engagement.</li>
+  <li>💼 <strong>Software Developer Intern</strong> at <strong>SOTI</strong>, Contributed to the development of their flagship product as a Full Stack Developer using .NET and Angular.</li>
+  <li>💼 <strong>Software Developer Intern</strong> at <strong>Telhab</strong>, enhancing web functionality and user engagement.</li>
   <li>🚀 <strong>Guidance Navigation Control Engineer</strong> at Toronto Metropolitan Hyperloop, improving safety and performance.</li>
   <li>🔧 <strong>Skills:</strong> Java, Python, C/C++, JavaScript, React.js, Node.js, HTML, CSS, SQL, and more.</li>
   <li> 💻 check out my Personal Website <a href = "https://saadwasim.netlify.app/"> SaadWasim</a> </li>
