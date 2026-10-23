@@ -12,7 +12,7 @@
   <li>💼 <strong>Software Developer Intern</strong> at <strong>Telhab</strong>, enhancing web functionality and user engagement.</li>
   <li>🚀 <strong>Guidance Navigation Control Engineer</strong> at Toronto Metropolitan Hyperloop, improving safety and performance.</li>
   <li>🔧 <strong>Skills:</strong> C#, AngularJS, Java, Python, C/C++, JavaScript, React.js, Node.js, HTML, CSS, SQL, and more.</li>
-  <li> 💻 check out my Personal Website <a href = "https://saadwasim.netlify.app/"> SaadWasim</a> </li>
+  <li> 💻 check out my Personal Website <a href = "https://www.saadwasim.com/"> SaadWasim</a> </li>
 </ul>
 
 <h2>Projects</h2>
