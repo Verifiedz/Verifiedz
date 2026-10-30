@@ -32,16 +32,14 @@ galaxy_arms:
       - "Claude"
       - "Azure"
 
-# Only public repos render here. Add Shimmer once its repo is public:
-#   - repo: "Verifiedz/<shimmer-repo>"
-#     arm: 1
-#     description: "Offline-first automation platform in Rust."
+# Only public repos render here.
 projects:
   - repo: "Verifiedz/AI-Wellness-Platform"
     arm: 0
     description: "Sakina AI: five decoupled C# microservices behind a YARP gateway, SignalR chat, local LLM via Ollama."
-  - repo: "Verifiedz/BookStoreApplication"
-    description: "Java/JavaFX bookstore app built around classic design patterns."
+  - repo: "Verifiedz/FirstGenFunds"
+    arm: 2
+    description: "Investment management web app: portfolio tracking, transaction management, data visualization, market analysis."
 
 stats:
   metrics:

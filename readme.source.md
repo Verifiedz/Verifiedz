@@ -42,7 +42,7 @@
 |---|---|---|
 | [**Sakina AI**](https://github.com/Verifiedz/AI-Wellness-Platform) | Team-built AI wellness platform. I led the architecture: five decoupled microservices behind a YARP gateway, each with its own database, and built the real-time chat service. Locally hosted, QLoRA fine-tuned LLM served through Ollama. | C#, ASP.NET Core, SignalR, PostgreSQL, Redis, Docker, Azure |
 | **Shimmer** *(in active development)* | Offline-first automation platform that runs locally with no server or account. Daemon-based backend with a plugin system, CI on Linux and macOS, 1,200 automated tests. Pre-launch. | Rust, SQLite |
-| [**Virtual Bookstore**](https://github.com/Verifiedz/BookStoreApplication) | Desktop bookstore application using established software design patterns. | Java, JavaFX |
+| [**FirstGenFunds**](https://github.com/Verifiedz/FirstGenFunds) | Investment management web app: portfolio tracking, transaction management, data visualization, and market analysis. | Java, HTML |
 
 ## Tech stack
 
