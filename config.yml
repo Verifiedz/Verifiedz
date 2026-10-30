@@ -1,0 +1,60 @@
+username: Verifiedz
+
+profile:
+  name: "Saad Wasim"
+  tagline: "Backend & Systems Software Engineer"
+  company: "Founder, Shimmer"
+  location: "Toronto, ON"
+  bio: |
+    Computer Engineering grad from Toronto Metropolitan University.
+    Building backend services in C#/.NET and local-first tools in Rust.
+  philosophy: '"Build it right, then make it fast."'
+
+social:
+  email: "saadwasim1921@protonmail.com"
+  linkedin: "saadwasim"
+  website: "https://www.saadwasim.com"
+
+galaxy_arms:
+  - name: "Backend"
+    items:
+      - "C# / .NET"
+      - "PostgreSQL"
+      - "Redis"
+  - name: "Systems"
+    items:
+      - "Rust"
+      - "Linux"
+      - "Docker"
+  - name: "AI & Tools"
+    items:
+      - "Ollama"
+      - "Claude"
+      - "Azure"
+
+# Only public repos render here. Add Shimmer once its repo is public:
+#   - repo: "Verifiedz/<shimmer-repo>"
+#     arm: 1
+#     description: "Offline-first automation platform in Rust."
+projects:
+  - repo: "Verifiedz/AI-Wellness-Platform"
+    arm: 0
+    description: "Sakina AI: five decoupled C# microservices behind a YARP gateway, SignalR chat, local LLM via Ollama."
+  - repo: "Verifiedz/BookStoreApplication"
+    description: "Java/JavaFX bookstore app built around classic design patterns."
+
+stats:
+  metrics:
+    - "commits"
+    - "stars"
+    - "prs"
+    - "issues"
+    - "repos"
+
+languages:
+  exclude:
+    - "HTML"
+    - "CSS"
+    - "Shell"
+    - "Makefile"
+  max_display: 8
