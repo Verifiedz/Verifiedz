@@ -49,12 +49,10 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/jstrieb/github-stats">
-    <img src="https://github.com/Verifiedz/github-stats/raw/generated/overview.svg#gh-dark-mode-only" alt="Overview" />
-    <img src="https://github.com/Verifiedz/github-stats/raw/generated/languages.svg#gh-dark-mode-only" alt="Languages" />
-    <img src="https://github.com/Verifiedz/github-stats/raw/generated/overview.svg#gh-light-mode-only" alt="Overview" />
-    <img src="https://github.com/Verifiedz/github-stats/raw/generated/languages.svg#gh-light-mode-only" alt="Languages" />
-  </a>
+  <img src="https://github.com/Verifiedz/github-stats/raw/generated/overview.svg#gh-dark-mode-only" alt="Overview" />
+  <img src="https://github.com/Verifiedz/github-stats/raw/generated/languages.svg#gh-dark-mode-only" alt="Languages" />
+  <img src="https://github.com/Verifiedz/github-stats/raw/generated/overview.svg#gh-light-mode-only" alt="Overview" />
+  <img src="https://github.com/Verifiedz/github-stats/raw/generated/languages.svg#gh-light-mode-only" alt="Languages" />
 </p>
 
 ## Connect
