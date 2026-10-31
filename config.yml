@@ -37,9 +37,9 @@ projects:
   - repo: "Verifiedz/AI-Wellness-Platform"
     arm: 0
     description: "Sakina AI: five decoupled C# microservices behind a YARP gateway, SignalR chat, local LLM via Ollama."
-  - repo: "Verifiedz/FirstGenFunds"
-    arm: 2
-    description: "Investment management web app: portfolio tracking, transaction management, data visualization, market analysis."
+  - repo: "Verifiedz/Shimmer"
+    arm: 1
+    description: "Shimmer: offline-first automation platform, built as my own venture. No server or account, daemon-based backend, 1,200 automated tests."
 
 stats:
   metrics:
