@@ -88,6 +88,10 @@ theme:
 # Visitors whose system asks for reduced motion always get still images.
 motion: true
 
+# Set to false to leave the focus areas' curved names (e.g. "Frontend", "Backend")
+# off the arms. The galaxy still groups repositories into arms; only the labels go.
+show_arm_names: true
+
 # Stats configuration — which counters to show beside the contribution chart
 # (the chart's own title is the number of contributions; up to three of the rest are shown)
 stats:

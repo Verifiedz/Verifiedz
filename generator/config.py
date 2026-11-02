@@ -166,6 +166,12 @@ def validate_config(config: dict) -> dict:
         raise ConfigError(f"'motion' must be true or false, got '{motion}'.")
     config["motion"] = motion
 
+    # show_arm_names — optional flag; false leaves the focus areas' curved names off the arms
+    show_arm_names = config.get("show_arm_names", True)
+    if not isinstance(show_arm_names, bool):
+        raise ConfigError(f"'show_arm_names' must be true or false, got '{show_arm_names}'.")
+    config["show_arm_names"] = show_arm_names
+
     # Apply other defaults
     config["profile"].setdefault("tagline", "")
     config["profile"].setdefault("philosophy", "")

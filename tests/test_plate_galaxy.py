@@ -449,8 +449,9 @@ PROFILE = {"name": "Nyx Orion", "tagline": "Full Stack Developer & Open Source E
 EMPTY = GalaxyModel(arms=(Arm(None, ()), Arm(None, ())), loose=(), labels=frozenset(), order=())
 
 
-def plate(model=None, profile=PROFILE, mobile=False, motion=True, seed="galaxy-dev", theme=SKY):
-    return galaxy.render(model or demo_model(), profile, theme, mobile=mobile, motion=motion, seed=seed)
+def plate(model=None, profile=PROFILE, mobile=False, motion=True, seed="galaxy-dev", theme=SKY, show_arm_names=True):
+    return galaxy.render(model or demo_model(), profile, theme, mobile=mobile, motion=motion, seed=seed,
+                         show_arm_names=show_arm_names)
 
 
 def star_count(svg):
@@ -482,6 +483,14 @@ def test_featured_and_brightest_repositories_are_named():
 def test_arm_names_are_set_along_their_curves():
     curved = len(re.findall(r'<use href="#i[0-9a-f]+" transform="translate', plate()))
     assert curved == len("Frontend") + len("Backend") + len("DevOps")
+
+
+def test_show_arm_names_false_leaves_the_arms_unlabelled():
+    svg = plate(show_arm_names=False)
+    assert not re.findall(r'<use href="#i[0-9a-f]+" transform="translate', svg)
+    # the rest of the plate is unaffected: identity and repository labels still draw
+    assert "nebula-ui" in texts(svg) and "NyxOrion" in texts(svg)
+    ET.fromstring(svg)
 
 
 def test_identity_is_never_animated():
