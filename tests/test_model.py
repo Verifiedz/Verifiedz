@@ -164,9 +164,16 @@ def test_featured_finds_a_repository_of_another_owner():
 
 # ── language shares ──────────────────────────────────────────────────────────
 
-def test_language_shares_are_percentages_of_the_kept_languages_largest_first():
+def test_language_shares_weigh_every_repository_equally_not_by_its_bytes():
+    """A repository all in one language counts the same as any other, whatever its size."""
     snap = snapshot([make("a", languages={"Python": 600, "HTML": 1000}), make("b", languages={"Rust": 400})])
-    assert language_shares(snap, ["HTML"], 8) == [("Python", 60.0), ("Rust", 40.0)]
+    assert language_shares(snap, ["HTML"], 8) == [("Python", 50.0), ("Rust", 50.0)]
+
+
+def test_one_outsized_repository_does_not_swamp_the_rest():
+    huge = make("shimmer", languages={"Rust": 2_763_998})
+    small = make("api", languages={"C#": 232_460, "JavaScript": 55_215})
+    assert language_shares(snapshot([huge, small]), [], 8) == [("Rust", 50.0), ("C#", 40.4), ("JavaScript", 9.6)]
 
 
 def test_language_shares_stop_at_max_display():
@@ -336,7 +343,9 @@ def test_a_bare_name_reaches_another_owners_repository_when_the_user_has_none_by
 def test_a_language_too_small_to_round_to_a_tenth_of_a_percent_is_not_listed():
     big = make("engine", languages={"Python": 999000, "Dockerfile": 900})
     tiny = make("infra", languages={"HCL": 100})
-    assert language_shares(snapshot([big, tiny]), [], 8) == [("Python", 99.9), ("Dockerfile", 0.1)]
+    # within "engine" Dockerfile is a sliver (900 next to 999000); averaged with "infra"'s lone HCL,
+    # it rounds away to nothing while HCL, which is all of "infra", counts for half the average
+    assert language_shares(snapshot([big, tiny]), [], 8) == [("HCL", 50.0), ("Python", 50.0)]
 
 
 def test_languages_that_are_all_dust_next_to_one_giant_leave_just_the_giant():

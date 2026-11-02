@@ -141,24 +141,35 @@ def featured(snap: Snapshot, config: dict) -> list:
 
 
 def language_shares(snap: Snapshot, exclude: list, max_display: int) -> list:
-    """(language, percent) for the user's own non-fork repositories, largest first.
+    """(language, percent) across the user's own non-fork repositories, largest first.
+
+    Each repository counts the same as any other, whatever its size: first its
+    own languages are turned into shares of itself, then those shares are
+    averaged across repositories. Summing raw bytes instead would let one
+    outsized repository swamp everything else; this way it is one data point
+    like any other.
 
     The profile repository is left out: it holds this generator's code, which
-    says nothing about what the user writes. A language too small to round to
-    a tenth of a percent is left out too.
+    says nothing about what the user writes. A repository left with nothing
+    once the excluded languages are removed does not count either. A language
+    too small to round to a tenth of a percent is left out too.
     """
-    login, skip, totals = snap.login.lower(), {str(name).lower() for name in exclude}, {}
+    login, skip = snap.login.lower(), {str(name).lower() for name in exclude}
+    totals, counted = {}, 0
     for repo in snap.repos:
         if repo.is_fork or repo.owner.lower() != login or repo.name.lower() == login:
             continue
-        for lang, size in repo.languages.items():
-            if lang.lower() not in skip:
-                totals[lang] = totals.get(lang, 0) + size
-    whole = sum(totals.values())
-    if not whole:
+        sizes = {lang: size for lang, size in repo.languages.items() if lang.lower() not in skip}
+        whole = sum(sizes.values())
+        if not whole:
+            continue
+        counted += 1
+        for lang, size in sizes.items():
+            totals[lang] = totals.get(lang, 0) + size / whole
+    if not counted:
         return []
     ranked = sorted(totals.items(), key=lambda kv: (-kv[1], kv[0]))[:max_display]
-    shares = [(lang, round(size / whole * 100, 1)) for lang, size in ranked]
+    shares = [(lang, round(share / counted * 100, 1)) for lang, share in ranked]
     return [(lang, percent) for lang, percent in shares if percent > 0]
 
 

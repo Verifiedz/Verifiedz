@@ -15,7 +15,7 @@ from generator.motion import Motion
 from generator.svg import clean, frame, num
 from generator.typeset import ELLIPSIS, Typesetter, measure, wrap
 
-HEADING = "Languages across public repositories, by bytes of code"
+HEADING = "Languages across public repositories, each repository weighted equally"
 EMPTY = "No language data yet"
 GAP = 2                           # pixels between segments
 BAND_Y, BAND_H, LIGHT_H = 56, 24, 16
