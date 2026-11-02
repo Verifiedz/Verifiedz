@@ -113,6 +113,18 @@ class TestAtlasKeys:
         with pytest.raises(ConfigError, match="motion"):
             validate_config(cfg)
 
+    def test_show_identity_defaults_to_true(self, cfg):
+        assert validate_config(cfg)["show_identity"] is True
+
+    def test_show_identity_can_be_switched_off(self, cfg):
+        cfg["show_identity"] = False
+        assert validate_config(cfg)["show_identity"] is False
+
+    def test_show_identity_must_be_a_boolean(self, cfg):
+        cfg["show_identity"] = "yes"
+        with pytest.raises(ConfigError, match="show_identity"):
+            validate_config(cfg)
+
     def test_arm_repos_must_be_a_list_of_names(self, cfg):
         cfg["galaxy_arms"][0]["repos"] = "nebula-ui"
         with pytest.raises(ConfigError, match="repos must be a list"):

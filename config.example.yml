@@ -12,8 +12,9 @@
 # Your GitHub username (required)
 username: galaxy-dev
 
-# Profile information. name, tagline and philosophy are drawn in the galaxy header;
-# company, location and bio are not drawn: keep them here for your own reference.
+# Profile information. name, tagline and philosophy are drawn in the galaxy header
+# (unless show_identity below is false); company, location and bio are not drawn:
+# keep them here for your own reference.
 profile:
   name: "Nyx Orion"
   tagline: "Full Stack Developer & Open Source Explorer"
@@ -87,6 +88,9 @@ theme:
 # Motion: set to false for still images.
 # Visitors whose system asks for reduced motion always get still images.
 motion: true
+
+# Set to false to leave the galaxy header plain: no name, tagline or philosophy drawn over it.
+show_identity: true
 
 # Stats configuration — which counters to show beside the contribution chart
 # (the chart's own title is the number of contributions; up to three of the rest are shown)
