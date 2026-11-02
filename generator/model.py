@@ -140,7 +140,7 @@ def featured(snap: Snapshot, config: dict) -> list:
     return items[:FEATURED_LIMIT]
 
 
-def language_shares(snap: Snapshot, exclude: list, max_display: int) -> list:
+def language_shares(snap: Snapshot, exclude: list, exclude_repos: list, max_display: int) -> list:
     """(language, percent) across the user's own non-fork repositories, largest first.
 
     Each repository counts the same as any other, whatever its size: first its
@@ -150,14 +150,20 @@ def language_shares(snap: Snapshot, exclude: list, max_display: int) -> list:
     like any other.
 
     The profile repository is left out: it holds this generator's code, which
-    says nothing about what the user writes. A repository left with nothing
-    once the excluded languages are removed does not count either. A language
-    too small to round to a tenth of a percent is left out too.
+    says nothing about what the user writes. exclude_repos leaves out others
+    by name, such as coursework or hackathon repositories that say nothing
+    about everyday skill either. A repository left with nothing once the
+    excluded languages are removed does not count. A language too small to
+    round to a tenth of a percent is left out too.
     """
-    login, skip = snap.login.lower(), {str(name).lower() for name in exclude}
+    login = snap.login.lower()
+    skip = {str(name).lower() for name in exclude}
+    skip_repos = {repo_key(name) for name in exclude_repos}
     totals, counted = {}, 0
     for repo in snap.repos:
         if repo.is_fork or repo.owner.lower() != login or repo.name.lower() == login:
+            continue
+        if repo_key(repo.name) in skip_repos:
             continue
         sizes = {lang: size for lang, size in repo.languages.items() if lang.lower() not in skip}
         whole = sum(sizes.values())

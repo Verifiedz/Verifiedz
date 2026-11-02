@@ -21,6 +21,7 @@ RENDERERS = {
                              motion),
     "tech-stack": lambda snap, config, theme, mobile, motion:
         languages.render(model.language_shares(snap, config["languages"]["exclude"],
+                                               config["languages"]["exclude_repos"],
                                                config["languages"]["max_display"]),
                          config["galaxy_arms"], theme, mobile, motion),
     "projects-constellation": lambda snap, config, theme, mobile, motion:

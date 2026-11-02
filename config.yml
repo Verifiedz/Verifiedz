@@ -58,4 +58,14 @@ languages:
     - "CSS"
     - "Shell"
     - "Makefile"
+  exclude_repos:
+    - "Wild-Hacks-II-StraySAFE"
+    - "Shark-Hacks-Megalodon"
+    - "COE318LABProjects"
+    - "BookStoreApplication"
+    - "FirstGenFunds"
+    - "PersonalWebsite-Deprecated-"
+    - "Image-Dehazing-DCP-vs-AODNet"
+    - "CPS714-Notification-System"
+    - "github-stats"
   max_display: 8

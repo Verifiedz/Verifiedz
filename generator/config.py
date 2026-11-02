@@ -199,6 +199,12 @@ def validate_config(config: dict) -> dict:
     if not isinstance(exclude, list) or not all(isinstance(name, str) for name in exclude):
         raise ConfigError("'languages.exclude' must be a list of language names, such as [HTML, CSS].")
     languages["exclude"] = exclude
+    exclude_repos = languages.get("exclude_repos")
+    if exclude_repos is None:
+        exclude_repos = []
+    if not isinstance(exclude_repos, list) or not all(isinstance(name, str) for name in exclude_repos):
+        raise ConfigError("'languages.exclude_repos' must be a list of repository names, such as [old-site].")
+    languages["exclude_repos"] = exclude_repos
     shown = languages.get("max_display")
     if shown is None:
         shown = 8

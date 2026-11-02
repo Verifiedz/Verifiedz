@@ -200,7 +200,7 @@ class TestStatsAndLanguages:
         cfg[section] = None
         result = validate_config(cfg)
         assert result["stats"]["metrics"] == ["commits", "stars", "prs", "issues", "repos"]
-        assert result["languages"] == {"exclude": [], "max_display": 8} or section == "stats"
+        assert result["languages"] == {"exclude": [], "exclude_repos": [], "max_display": 8} or section == "stats"
 
     @pytest.mark.parametrize("section", ["stats", "languages"])
     def test_a_section_that_is_not_a_mapping_is_rejected(self, cfg, section):
@@ -226,7 +226,21 @@ class TestStatsAndLanguages:
 
     def test_exclude_left_empty_excludes_nothing(self, cfg):
         cfg["languages"] = {"exclude": None, "max_display": 5}
-        assert validate_config(cfg)["languages"] == {"exclude": [], "max_display": 5}
+        assert validate_config(cfg)["languages"] == {"exclude": [], "exclude_repos": [], "max_display": 5}
+
+    @pytest.mark.parametrize("exclude_repos", ["old-site", 7, [1, 2]])
+    def test_exclude_repos_must_be_a_list_of_repo_names(self, cfg, exclude_repos):
+        cfg["languages"] = {"exclude_repos": exclude_repos}
+        with pytest.raises(ConfigError, match="languages.exclude_repos"):
+            validate_config(cfg)
+
+    def test_exclude_repos_left_empty_excludes_nothing(self, cfg):
+        cfg["languages"] = {"exclude_repos": None}
+        assert validate_config(cfg)["languages"]["exclude_repos"] == []
+
+    def test_exclude_repos_is_accepted(self, cfg):
+        cfg["languages"] = {"exclude_repos": ["old-coursework-repo"]}
+        assert validate_config(cfg)["languages"]["exclude_repos"] == ["old-coursework-repo"]
 
     @pytest.mark.parametrize("value", ["8", 3.5, 0, -1, True, None])
     def test_max_display_must_be_a_whole_number_of_at_least_one(self, cfg, value):

@@ -113,4 +113,6 @@ languages:
     - "CSS"
     - "Shell"
     - "Makefile"
+  # exclude_repos:              # Repositories to leave out of the measurement entirely,
+  #   - "old-coursework-repo"   # such as coursework, hackathon entries or template/tool repos
   max_display: 8               # Maximum number of languages to show

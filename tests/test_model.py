@@ -167,24 +167,39 @@ def test_featured_finds_a_repository_of_another_owner():
 def test_language_shares_weigh_every_repository_equally_not_by_its_bytes():
     """A repository all in one language counts the same as any other, whatever its size."""
     snap = snapshot([make("a", languages={"Python": 600, "HTML": 1000}), make("b", languages={"Rust": 400})])
-    assert language_shares(snap, ["HTML"], 8) == [("Python", 50.0), ("Rust", 50.0)]
+    assert language_shares(snap, ["HTML"], [], 8) == [("Python", 50.0), ("Rust", 50.0)]
 
 
 def test_one_outsized_repository_does_not_swamp_the_rest():
     huge = make("shimmer", languages={"Rust": 2_763_998})
     small = make("api", languages={"C#": 232_460, "JavaScript": 55_215})
-    assert language_shares(snapshot([huge, small]), [], 8) == [("Rust", 50.0), ("C#", 40.4), ("JavaScript", 9.6)]
+    assert language_shares(snapshot([huge, small]), [], [], 8) == [("Rust", 50.0), ("C#", 40.4), ("JavaScript", 9.6)]
 
 
 def test_language_shares_stop_at_max_display():
     snap = snapshot([make("a", languages={"A": 5, "B": 4, "C": 1})])
-    assert [name for name, _ in language_shares(snap, [], 2)] == ["A", "B"]
+    assert [name for name, _ in language_shares(snap, [], [], 2)] == ["A", "B"]
 
 
 def test_language_shares_ignore_forks_and_other_owners():
     snap = snapshot([make("mine", languages={"Python": 100}), make("fork", languages={"C": 900}, fork=True),
                      make("theirs", languages={"Go": 900}, owner="babbage")])
-    assert language_shares(snap, [], 8) == [("Python", 100.0)]
+    assert language_shares(snap, [], [], 8) == [("Python", 100.0)]
+
+
+def test_exclude_repos_leaves_a_named_repository_out_of_the_measurement():
+    snap = snapshot([make("coursework", languages={"Java": 900}), make("shimmer", languages={"Rust": 100})])
+    assert language_shares(snap, [], ["coursework"], 8) == [("Rust", 100.0)]
+
+
+def test_exclude_repos_does_not_depend_on_how_its_name_is_cased():
+    snap = snapshot([make("Coursework", languages={"Java": 900}), make("shimmer", languages={"Rust": 100})])
+    assert language_shares(snap, [], ["COURSEWORK"], 8) == [("Rust", 100.0)]
+
+
+def test_exclude_repos_entries_may_be_written_with_or_without_an_owner():
+    snap = snapshot([make("coursework", languages={"Java": 900}), make("shimmer", languages={"Rust": 100})])
+    assert language_shares(snap, [], ["ada/coursework"], 8) == [("Rust", 100.0)]
 
 
 # ── weekly series ────────────────────────────────────────────────────────────
@@ -207,7 +222,7 @@ def test_empty_profile_yields_empty_models():
     snap = snapshot([])
     assert visible_repos(snap, {"projects": []}) == []
     assert featured(snap, {"projects": [{"repo": "ada/ghost"}]}) == []
-    assert language_shares(snap, [], 8) == []
+    assert language_shares(snap, [], [], 8) == []
     assert assign_arms([], ARMS, []) == {}
 
 
@@ -345,18 +360,18 @@ def test_a_language_too_small_to_round_to_a_tenth_of_a_percent_is_not_listed():
     tiny = make("infra", languages={"HCL": 100})
     # within "engine" Dockerfile is a sliver (900 next to 999000); averaged with "infra"'s lone HCL,
     # it rounds away to nothing while HCL, which is all of "infra", counts for half the average
-    assert language_shares(snapshot([big, tiny]), [], 8) == [("HCL", 50.0), ("Python", 50.0)]
+    assert language_shares(snapshot([big, tiny]), [], [], 8) == [("HCL", 50.0), ("Python", 50.0)]
 
 
 def test_languages_that_are_all_dust_next_to_one_giant_leave_just_the_giant():
     repo = make("mono", languages={"C": 10_000_000, "Awk": 10, "Sed": 9})
-    assert language_shares(snapshot([repo]), [], 8) == [("C", 100.0)]
+    assert language_shares(snapshot([repo]), [], [], 8) == [("C", 100.0)]
 
 
 def test_excluding_a_language_does_not_depend_on_how_its_name_is_cased():
     repo = make("site", languages={"TypeScript": 60, "HTML": 40})
-    assert language_shares(snapshot([repo]), ["typescript"], 8) == [("HTML", 100.0)]
-    assert language_shares(snapshot([repo]), ["html", "TYPESCRIPT"], 8) == []
+    assert language_shares(snapshot([repo]), ["typescript"], [], 8) == [("HTML", 100.0)]
+    assert language_shares(snapshot([repo]), ["html", "TYPESCRIPT"], [], 8) == []
 
 
 def test_a_project_listed_twice_is_featured_once():
@@ -369,7 +384,7 @@ def test_the_profile_repository_does_not_count_in_the_language_shares():
     """It holds this generator's own code, which says nothing about what the user writes."""
     profile = make("ada", languages={"Python": 377000})
     work = make("engine", languages={"Rust": 1000})
-    assert language_shares(snapshot([profile, work]), [], 8) == [("Rust", 100.0)]
+    assert language_shares(snapshot([profile, work]), [], [], 8) == [("Rust", 100.0)]
 
 
 def test_a_bare_pin_shared_by_several_other_owners_pins_none_of_them():
