@@ -166,12 +166,6 @@ def validate_config(config: dict) -> dict:
         raise ConfigError(f"'motion' must be true or false, got '{motion}'.")
     config["motion"] = motion
 
-    # show_identity — optional flag; false leaves the galaxy header's name, tagline and philosophy undrawn
-    show_identity = config.get("show_identity", True)
-    if not isinstance(show_identity, bool):
-        raise ConfigError(f"'show_identity' must be true or false, got '{show_identity}'.")
-    config["show_identity"] = show_identity
-
     # Apply other defaults
     config["profile"].setdefault("tagline", "")
     config["profile"].setdefault("philosophy", "")

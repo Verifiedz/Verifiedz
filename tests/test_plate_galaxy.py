@@ -449,9 +449,8 @@ PROFILE = {"name": "Nyx Orion", "tagline": "Full Stack Developer & Open Source E
 EMPTY = GalaxyModel(arms=(Arm(None, ()), Arm(None, ())), loose=(), labels=frozenset(), order=())
 
 
-def plate(model=None, profile=PROFILE, mobile=False, motion=True, seed="galaxy-dev", theme=SKY, show_identity=True):
-    return galaxy.render(model or demo_model(), profile, theme, mobile=mobile, motion=motion, seed=seed,
-                         show_identity=show_identity)
+def plate(model=None, profile=PROFILE, mobile=False, motion=True, seed="galaxy-dev", theme=SKY):
+    return galaxy.render(model or demo_model(), profile, theme, mobile=mobile, motion=motion, seed=seed)
 
 
 def star_count(svg):
@@ -505,13 +504,6 @@ def test_a_long_name_shrinks_to_fit_beside_the_galaxy_and_is_cut_if_it_must():
 def test_mobile_shows_name_and_tagline_only():
     names = texts(plate(mobile=True))
     assert "NyxOrion" in names and not any(t.startswith("“The") or t.startswith('"The') for t in names)
-
-
-def test_show_identity_false_draws_no_name_tagline_or_philosophy():
-    with_identity, without = texts(plate()), texts(plate(show_identity=False))
-    assert "NyxOrion" in with_identity and "NyxOrion" not in without
-    assert not any(t.startswith("“The") or t.startswith('"The') for t in without)
-    ET.fromstring(plate(show_identity=False))
 
 
 def test_missing_tagline_and_philosophy_leave_no_empty_lines():

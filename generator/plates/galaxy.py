@@ -482,24 +482,21 @@ def _summary(model) -> str:
     return "; ".join(parts) + "."
 
 
-def render(model, profile: dict, theme, mobile: bool = False, motion: bool = True, seed: str = "",
-          show_identity: bool = True) -> str:
+def render(model, profile: dict, theme, mobile: bool = False, motion: bool = True, seed: str = "") -> str:
     """The galaxy header. model is model.GalaxyModel; seed (the login) fixes every random choice.
 
     Stars and text are data and are always drawn in full. If that leaves the
     file over BYTE_BUDGET, the dust, which stands for nothing, is thinned.
-    show_identity=False leaves the name, tagline and philosophy undrawn, for a plain galaxy.
     """
     svg = ""
     for keep in THINNING:
-        svg = _compose(model, profile, theme, mobile, motion, seed, keep, show_identity)
+        svg = _compose(model, profile, theme, mobile, motion, seed, keep)
         if len(svg.encode("utf-8")) <= BYTE_BUDGET:
             break
     return svg
 
 
-def _compose(model, profile: dict, theme, mobile: bool, motion: bool, seed: str, keep: float,
-            show_identity: bool = True) -> str:
+def _compose(model, profile: dict, theme, mobile: bool, motion: bool, seed: str, keep: float) -> str:
     geo = Geometry(mobile, len(model.arms))
     mo, ts = Motion(motion), Typesetter()
     rng = random.Random(f"galaxy:{seed}")
@@ -562,7 +559,7 @@ def _compose(model, profile: dict, theme, mobile: bool, motion: bool, seed: str,
         body += [f'<g{mo.cls("soft", delay=delay)}>{"".join(glyphs)}</g>' for delay, glyphs in sorted(batches.items())]
 
     size = label_size(geo)
-    identity, identity_boxes = _identity(profile, theme, geo, ts) if show_identity else ("", [])
+    identity, identity_boxes = _identity(profile, theme, geo, ts)
     arm_names = arm_name_paths(model, geo)
     # what a star's name should stay off if it can: every stretch of an arm's name
     half = size * 0.75

@@ -10,8 +10,6 @@ profile:
     Building backend services in C#/.NET and local-first tools in Rust.
   philosophy: '"Build it right, then make it fast."'
 
-show_identity: false
-
 social:
   email: "saadwasim1921@protonmail.com"
   linkedin: "saadwasim"
