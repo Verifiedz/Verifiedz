@@ -92,6 +92,10 @@ motion: true
 # off the arms. The galaxy still groups repositories into arms; only the labels go.
 show_arm_names: true
 
+# Set to false to leave the featured/brightest repositories' names off their stars.
+# The stars themselves still draw; only the names beside them go.
+show_repo_labels: true
+
 # Stats configuration — which counters to show beside the contribution chart
 # (the chart's own title is the number of contributions; up to three of the rest are shown)
 stats:

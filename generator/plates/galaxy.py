@@ -483,23 +483,24 @@ def _summary(model) -> str:
 
 
 def render(model, profile: dict, theme, mobile: bool = False, motion: bool = True, seed: str = "",
-          show_arm_names: bool = True) -> str:
+          show_arm_names: bool = True, show_repo_labels: bool = True) -> str:
     """The galaxy header. model is model.GalaxyModel; seed (the login) fixes every random choice.
 
     Stars and text are data and are always drawn in full. If that leaves the
     file over BYTE_BUDGET, the dust, which stands for nothing, is thinned.
     show_arm_names=False leaves the focus areas' curved names off the arms.
+    show_repo_labels=False leaves the named stars' repository names off, but the stars themselves stay.
     """
     svg = ""
     for keep in THINNING:
-        svg = _compose(model, profile, theme, mobile, motion, seed, keep, show_arm_names)
+        svg = _compose(model, profile, theme, mobile, motion, seed, keep, show_arm_names, show_repo_labels)
         if len(svg.encode("utf-8")) <= BYTE_BUDGET:
             break
     return svg
 
 
 def _compose(model, profile: dict, theme, mobile: bool, motion: bool, seed: str, keep: float,
-            show_arm_names: bool = True) -> str:
+            show_arm_names: bool = True, show_repo_labels: bool = True) -> str:
     geo = Geometry(mobile, len(model.arms))
     mo, ts = Motion(motion), Typesetter()
     rng = random.Random(f"galaxy:{seed}")
@@ -570,13 +571,14 @@ def _compose(model, profile: dict, theme, mobile: bool, motion: bool, seed: str,
     star_counts = {name: r.stars for name, r in repos.items()}
     written = {name: r.name for name, r in repos.items()}
     labels = []
-    for name, (x, baseline, anchor, box) in place_labels(sorted(model.labels & set(positions)), positions,
-                                                          star_counts, geo, identity_boxes, written,
-                                                          stretches).items():
-        labels.append(f'<g{mo.cls("soft", delay=when[name] + 0.35)}>'
-                      f'<rect x="{num(box[0])}" y="{num(box[1])}" width="{num(box[2])}" height="{num(box[3])}" rx="8" '
-                      f'fill="{theme.chip[0]}" fill-opacity="{theme.chip[1]}" filter="url(#lb)"/>'
-                      f'{ts.line(x, baseline, label_text(written[name], geo), size, theme.ink, LABEL_STYLE, anchor, halo=(theme.bg, 2.4, 0.55))}</g>')
+    if show_repo_labels:
+        for name, (x, baseline, anchor, box) in place_labels(sorted(model.labels & set(positions)), positions,
+                                                              star_counts, geo, identity_boxes, written,
+                                                              stretches).items():
+            labels.append(f'<g{mo.cls("soft", delay=when[name] + 0.35)}>'
+                          f'<rect x="{num(box[0])}" y="{num(box[1])}" width="{num(box[2])}" height="{num(box[3])}" rx="8" '
+                          f'fill="{theme.chip[0]}" fill-opacity="{theme.chip[1]}" filter="url(#lb)"/>'
+                          f'{ts.line(x, baseline, label_text(written[name], geo), size, theme.ink, LABEL_STYLE, anchor, halo=(theme.bg, 2.4, 0.55))}</g>')
     # arm names go under the stars and their names, as in a chart where the grid is drawn first
     if arm_names:
         curved = "".join(ts.on_curve(points, name, size, theme.mute, "italic", halo=(theme.bg, 3.5, 1))

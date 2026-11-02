@@ -125,6 +125,18 @@ class TestAtlasKeys:
         with pytest.raises(ConfigError, match="show_arm_names"):
             validate_config(cfg)
 
+    def test_show_repo_labels_defaults_to_true(self, cfg):
+        assert validate_config(cfg)["show_repo_labels"] is True
+
+    def test_show_repo_labels_can_be_switched_off(self, cfg):
+        cfg["show_repo_labels"] = False
+        assert validate_config(cfg)["show_repo_labels"] is False
+
+    def test_show_repo_labels_must_be_a_boolean(self, cfg):
+        cfg["show_repo_labels"] = "yes"
+        with pytest.raises(ConfigError, match="show_repo_labels"):
+            validate_config(cfg)
+
     def test_arm_repos_must_be_a_list_of_names(self, cfg):
         cfg["galaxy_arms"][0]["repos"] = "nebula-ui"
         with pytest.raises(ConfigError, match="repos must be a list"):

@@ -449,9 +449,10 @@ PROFILE = {"name": "Nyx Orion", "tagline": "Full Stack Developer & Open Source E
 EMPTY = GalaxyModel(arms=(Arm(None, ()), Arm(None, ())), loose=(), labels=frozenset(), order=())
 
 
-def plate(model=None, profile=PROFILE, mobile=False, motion=True, seed="galaxy-dev", theme=SKY, show_arm_names=True):
+def plate(model=None, profile=PROFILE, mobile=False, motion=True, seed="galaxy-dev", theme=SKY, show_arm_names=True,
+         show_repo_labels=True):
     return galaxy.render(model or demo_model(), profile, theme, mobile=mobile, motion=motion, seed=seed,
-                         show_arm_names=show_arm_names)
+                         show_arm_names=show_arm_names, show_repo_labels=show_repo_labels)
 
 
 def star_count(svg):
@@ -490,6 +491,17 @@ def test_show_arm_names_false_leaves_the_arms_unlabelled():
     assert not re.findall(r'<use href="#i[0-9a-f]+" transform="translate', svg)
     # the rest of the plate is unaffected: identity and repository labels still draw
     assert "nebula-ui" in texts(svg) and "NyxOrion" in texts(svg)
+    ET.fromstring(svg)
+
+
+def test_show_repo_labels_false_leaves_the_named_stars_unlabelled():
+    svg = plate(show_repo_labels=False)
+    names = texts(svg)
+    assert "nebula-ui" not in names and "stargate-api" not in names
+    assert 'filter="url(#lb)"' not in svg
+    # the stars themselves and the identity text are unaffected
+    assert star_count(svg) == star_count(plate())
+    assert "NyxOrion" in names
     ET.fromstring(svg)
 
 

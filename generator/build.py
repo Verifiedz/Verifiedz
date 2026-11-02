@@ -14,7 +14,8 @@ from generator.themes import get_theme
 RENDERERS = {
     "galaxy-header": lambda snap, config, theme, mobile, motion:
         galaxy.render(model.galaxy(snap, config), config["profile"], theme, mobile, motion, seed=snap.login,
-                     show_arm_names=config.get("show_arm_names", True)),
+                     show_arm_names=config.get("show_arm_names", True),
+                     show_repo_labels=config.get("show_repo_labels", True)),
     "stats-card": lambda snap, config, theme, mobile, motion:
         contributions.render(model.weekly_series(snap), snap.counters, config["stats"]["metrics"], theme, mobile,
                              motion),

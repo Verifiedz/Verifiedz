@@ -172,6 +172,12 @@ def validate_config(config: dict) -> dict:
         raise ConfigError(f"'show_arm_names' must be true or false, got '{show_arm_names}'.")
     config["show_arm_names"] = show_arm_names
 
+    # show_repo_labels — optional flag; false leaves the named stars' repository names off
+    show_repo_labels = config.get("show_repo_labels", True)
+    if not isinstance(show_repo_labels, bool):
+        raise ConfigError(f"'show_repo_labels' must be true or false, got '{show_repo_labels}'.")
+    config["show_repo_labels"] = show_repo_labels
+
     # Apply other defaults
     config["profile"].setdefault("tagline", "")
     config["profile"].setdefault("philosophy", "")

@@ -11,6 +11,7 @@ profile:
   philosophy: '"Build it right, then make it fast."'
 
 show_arm_names: false
+show_repo_labels: false
 
 social:
   email: "saadwasim1921@protonmail.com"
